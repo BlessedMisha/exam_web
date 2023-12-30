@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fyrchik</title>
+    <title>Checkbox Visibility</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,11 +12,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: #f0f0f0; /* Фон сторінки */
+            background-color: #f0f0f0; 
         }
 
         .window-container {
-            background-color: #fff; /* Фон вікна */
+            background-color: #fff; 
             border: 1px solid #ccc;
             border-radius: 8px;
             padding: 20px;
@@ -26,66 +26,105 @@
         .checkbox-container {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             padding: 10px;
             height: 30px;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            margin-bottom: 5px;
         }
 
         input[type="checkbox"] {
             margin-right: 8px;
             transform: scale(1.8);
             vertical-align: middle;
+            border: 1px solid #ccc;
         }
 
         p {
-            display: none;
             margin: 0;
             line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .delete-button {
+            margin-left: auto;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
         }
     </style>
 </head>
 <body>
 <div class="window-container">
     <h1>Fychak Mykhailo</h1>
-    <div class="checkbox-container">
-        <input type="checkbox" id="checkbox1" checked>
-        <p id="paragraph1">123</p>
-    </div>
+    <div id="checkboxWrapper"></div>
 
-    <div class="checkbox-container">
-        <input type="checkbox" id="checkbox2" checked>
-        <p id="paragraph2">456</p>
+    <div>
+        <label for="newCheckboxText">Текст нового чекбокса:</label>
+        <input type="text" id="newCheckboxText">
+        <button onclick="addCheckbox()">Додати Чекбокс</button>
     </div>
 </div>
 
 <script>
-    // Отримання посилань на checkbox та абзаці
-    const checkbox1 = document.getElementById('checkbox1');
-    const paragraph1 = document.getElementById('paragraph1');
-    
-    const checkbox2 = document.getElementById('checkbox2');
-    const paragraph2 = document.getElementById('paragraph2');
-
-    // Функція для зміни видимості абзацу в залежності від стану checkbox
     function toggleVisibility(checkbox, paragraph) {
-        if (checkbox.checked) {
-            paragraph.style.display = 'block';
-        } else {
-            paragraph.style.display = 'none';
-        }
+        paragraph.style.display = checkbox.checked ? 'block' : 'none';
     }
 
-    // Додати слухачі подій для checkbox
-    checkbox1.addEventListener('change', function() {
-        toggleVisibility(checkbox1, paragraph1);
-    });
+    function createCheckbox(text) {
+        const container = document.getElementById('checkboxWrapper');
+        const newCheckboxContainer = document.createElement('div');
+        newCheckboxContainer.classList.add('checkbox-container');
 
-    checkbox2.addEventListener('change', function() {
-        toggleVisibility(checkbox2, paragraph2);
-    });
+        const newCheckbox = document.createElement('input');
+        newCheckbox.type = 'checkbox';
+        newCheckbox.checked = true;
+        newCheckbox.addEventListener('change', function() {
+            toggleVisibility(newCheckbox, newParagraph);
+        });
 
-    // Запустити функцію для встановлення початкового стану
-    toggleVisibility(checkbox1, paragraph1);
-    toggleVisibility(checkbox2, paragraph2);
+        const newParagraph = document.createElement('p');
+        newParagraph.textContent = text;
+        newParagraph.onclick = function() {
+            editText(newParagraph);
+        };
+
+        const removeButton = document.createElement('button');
+        removeButton.classList.add('delete-button');
+        removeButton.textContent = 'Видалити';
+        removeButton.onclick = function() {
+            removeCheckbox(newCheckboxContainer);
+        };
+
+        newCheckboxContainer.appendChild(newCheckbox);
+        newCheckboxContainer.appendChild(newParagraph);
+        newCheckboxContainer.appendChild(removeButton);
+        container.appendChild(newCheckboxContainer);
+
+        toggleVisibility(newCheckbox, newParagraph);
+    }
+
+    function addCheckbox() {
+        const newCheckboxText = document.getElementById('newCheckboxText').value.trim();
+        if (newCheckboxText === '') {
+            alert('Введіть текст для нового чекбокса.');
+            return;
+        }
+
+        createCheckbox(newCheckboxText);
+    }
+
+    function removeCheckbox(checkboxContainer) {
+        const container = document.getElementById('checkboxWrapper');
+        container.removeChild(checkboxContainer);
+    }
+
+    function editText(paragraph) {
+        const newText = prompt('Введіть новий текст:', paragraph.textContent);
+        if (newText !== null) {
+            paragraph.textContent = newText;
+        }
+    }
 </script>
 
 </body>
