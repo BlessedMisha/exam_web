@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkbox Visibility</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f0f0f0; /* Фон сторінки */
+        }
+
+        .window-container {
+            background-color: #fff; /* Фон вікна */
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 100px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            height: 30px;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.8);
+            vertical-align: middle;
+        }
+
+        p {
+            display: none;
+            margin: 0;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div class="window-container">
+    <h1>Fychak Mykhailo</h1>
+    <div class="checkbox-container">
+        <input type="checkbox" id="checkbox1" checked>
+        <p id="paragraph1">123</p>
+    </div>
+
+    <div class="checkbox-container">
+        <input type="checkbox" id="checkbox2" checked>
+        <p id="paragraph2">456</p>
+    </div>
+</div>
+
+<script>
+    // Отримання посилань на checkbox та абзаці
+    const checkbox1 = document.getElementById('checkbox1');
+    const paragraph1 = document.getElementById('paragraph1');
+    
+    const checkbox2 = document.getElementById('checkbox2');
+    const paragraph2 = document.getElementById('paragraph2');
+
+    // Функція для зміни видимості абзацу в залежності від стану checkbox
+    function toggleVisibility(checkbox, paragraph) {
+        if (checkbox.checked) {
+            paragraph.style.display = 'block';
+        } else {
+            paragraph.style.display = 'none';
+        }
+    }
+
+    // Додати слухачі подій для checkbox
+    checkbox1.addEventListener('change', function() {
+        toggleVisibility(checkbox1, paragraph1);
+    });
+
+    checkbox2.addEventListener('change', function() {
+        toggleVisibility(checkbox2, paragraph2);
+    });
+
+    // Запустити функцію для встановлення початкового стану
+    toggleVisibility(checkbox1, paragraph1);
+    toggleVisibility(checkbox2, paragraph2);
+</script>
+
+</body>
+</html>
